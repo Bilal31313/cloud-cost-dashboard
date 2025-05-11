@@ -33,27 +33,27 @@ resource "aws_iam_role" "github_oidc" {
 
 # Grant just what the pipeline needs: ECR push + ECS deploy + logs
 resource "aws_iam_policy" "gh_policy" {
-  name   = "${var.app_name}-gh-policy"
+  name = "${var.app_name}-gh-policy"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       { Action = [
-          "ecr:GetAuthorizationToken",
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:PutImage",
-          "ecr:InitiateLayerUpload",
-          "ecr:UploadLayerPart",
-          "ecr:CompleteLayerUpload"
-        ], Effect = "Allow", Resource = "*" },
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:PutImage",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload"
+      ], Effect = "Allow", Resource = "*" },
       { Action = [
-          "ecs:DescribeServices",
-          "ecs:UpdateService",
-          "ecs:DescribeTaskDefinition",
-          "ecs:RegisterTaskDefinition"
-        ], Effect = "Allow", Resource = "*" },
+        "ecs:DescribeServices",
+        "ecs:UpdateService",
+        "ecs:DescribeTaskDefinition",
+        "ecs:RegisterTaskDefinition"
+      ], Effect = "Allow", Resource = "*" },
       { Action = [
-          "iam:PassRole"
-        ], Effect = "Allow", Resource = aws_iam_role.exec.arn }
+        "iam:PassRole"
+      ], Effect = "Allow", Resource = aws_iam_role.exec.arn }
     ]
   })
 }

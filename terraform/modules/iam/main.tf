@@ -1,17 +1,21 @@
-data "aws_iam_policy_document" "assume" {
-  statement {
-    effect    = "Allow"
-    actions   = ["sts:AssumeRole"]
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-  }
-}
 
 resource "aws_iam_role" "exec" {
-  name               = "${var.app_name}-task-exec"
-  assume_role_policy = data.aws_iam_policy_document.assume.json
+  name = "${var.app_name}-task-exec"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Principal = {
+        Service = "ecs-tasks.amazonaws.com"
+      }
+      Action = "sts:AssumeRole"
+    }]
+  })
+
+  tags = {
+    Name = "${var.app_name}-task-exec"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "attach" {

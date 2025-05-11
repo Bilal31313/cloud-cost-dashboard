@@ -1,4 +1,31 @@
 # … existing ecs_sg & cluster unchanged …
+resource "aws_ecs_cluster" "cluster" {
+  name = "${var.app_name}-cluster"
+}
+
+resource "aws_security_group" "ecs_sg" {
+  name        = "${var.app_name}-ecs-sg"
+  description = "Allow traffic from ALB"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port       = 8000
+    to_port         = 8000
+    protocol        = "tcp"
+    security_groups = [var.alb_sg_id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.app_name}-ecs-sg"
+  }
+}
 
 resource "aws_ecs_task_definition" "task" {
   family                   = "${var.app_name}-task"
@@ -12,8 +39,8 @@ resource "aws_ecs_task_definition" "task" {
     name  = "${var.app_name}"
     image = "${var.ecr_image_uri}:latest"
     portMappings = [{
-      containerPort = 8000   # <── changed
-      hostPort      = 8000   # <── changed
+      containerPort = 8000 # <── changed
+      hostPort      = 8000 # <── changed
       protocol      = "tcp"
     }]
     logConfiguration = {
@@ -35,14 +62,14 @@ resource "aws_ecs_service" "service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets         = var.subnets
-    security_groups = [aws_security_group.ecs_sg.id]
+    subnets          = var.subnets
+    security_groups  = [aws_security_group.ecs_sg.id]
     assign_public_ip = true
   }
 
   load_balancer {
     target_group_arn = var.target_group_arn
-    container_name   = "${var.app_name}"
-    container_port   = 8000   # <── changed
+    container_name   = var.app_name
+    container_port   = 8000 # <── changed
   }
 }

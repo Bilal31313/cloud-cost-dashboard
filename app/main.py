@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from sqlmodel import SQLModel
-from routers import costs
+from routers import costs, reccomendations
 from db.session import engine
 
 app = FastAPI(

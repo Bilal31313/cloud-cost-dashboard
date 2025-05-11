@@ -11,7 +11,7 @@ app = FastAPI(
 
 # Include API routers
 app.include_router(costs.router)
-
+app.include_router(recommendations.router)
 # Auto-create DB tables on startup
 @app.on_event("startup")
 def on_startup():

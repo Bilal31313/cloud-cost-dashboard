@@ -1,8 +1,10 @@
-from sqlmodel import Session, create_engine
+import os
+from sqlmodel import SQLModel, create_engine
 
-sqlite_file = "costs.db"
-engine = create_engine(f"sqlite:///{sqlite_file}", echo=True)
+DB_USER = os.getenv("DB_USERNAME")
+DB_PASS = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_NAME = "costs"
 
-def get_session():
-    with Session(engine) as session:
-        yield session
+DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}"
+engine = create_engine(DATABASE_URL, echo=True)

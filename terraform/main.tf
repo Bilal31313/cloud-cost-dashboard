@@ -21,7 +21,30 @@ module "alb" {
   vpc_id         = module.network.vpc_id
   public_subnets = module.network.public_subnets
 }
+resource "aws_security_group" "ecs_sg" {
+  name        = "${var.app_name}-ecs-sg"
+  description = "Allow traffic from ALB to ECS tasks"
+  vpc_id      = module.network.vpc_id
 
+  ingress {
+    description     = "ALB ECS (HTTP)"
+    from_port       = 8000
+    to_port         = 8000
+    protocol        = "tcp"
+    security_groups = [module.alb.alb_sg_id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.app_name}-ecs-sg"
+  }
+}
 module "ecs" {
   source           = "./modules/ecs"
   app_name         = var.app_name
@@ -33,9 +56,21 @@ module "ecs" {
   ecr_image_uri    = var.ecr_repo_url
   log_group_name   = module.logs.log_group_name
   aws_region       = var.aws_region
+  db_host             = module.rds.rds_endpoint
+   ecs_sg_id = aws_security_group.ecs_sg.id
 }
 
 output "alb_dns" {
   description = "Public URL"
   value       = module.alb.alb_dns
+}
+module "rds" {
+  source                = "./modules/rds"
+  db_identifier         = "${var.app_name}-db"
+  db_name               = "costs"
+  db_username           = "postgres"                   # replace with TF var / secret later
+  db_password           = "supersecurepassword123"     # replace with TF var / secret later
+  vpc_id                = module.network.vpc_id
+  subnet_ids            = module.network.private_subnet_ids
+  ecs_security_group_id = aws_security_group.ecs_sg.id # ✅ break the cycle
 }

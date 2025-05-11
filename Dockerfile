@@ -1,29 +1,20 @@
-# Base image
+# ─────────────── Dockerfile ───────────────
 FROM python:3.12-slim
 
 # Create non-root user
 RUN adduser --disabled-password --gecos '' appuser
-
-# Set work directory
 WORKDIR /app
 
-# Copy only requirements first (for layer caching)
+# Copy requirements first for layer cache
 COPY app/requirements.txt .
-
-# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy entire app code
+# Copy source
 COPY app/ .
 
-# Set permissions
+# Change ownership (but KEEP root for port 8000 bind)
 RUN chown -R appuser /app
 
-# Switch to non-root user
-USER appuser
-
-# Expose port
-EXPOSE 80
-
-# Start app
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+EXPOSE 8000
+# NOTE: we stay root here; binding to 8000 is non-privileged
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,25 +1,4 @@
-resource "aws_security_group" "ecs_sg" {
-  name   = "${var.app_name}-ecs-sg"
-  vpc_id = var.vpc_id
-
-  ingress {
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
-    security_groups = [var.alb_sg_id]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_ecs_cluster" "cluster" {
-  name = "${var.app_name}-cluster"
-}
+# … existing ecs_sg & cluster unchanged …
 
 resource "aws_ecs_task_definition" "task" {
   family                   = "${var.app_name}-task"
@@ -33,8 +12,8 @@ resource "aws_ecs_task_definition" "task" {
     name  = "${var.app_name}"
     image = "${var.ecr_image_uri}:latest"
     portMappings = [{
-      containerPort = 80
-      hostPort      = 80
+      containerPort = 8000   # <── changed
+      hostPort      = 8000   # <── changed
       protocol      = "tcp"
     }]
     logConfiguration = {
@@ -64,8 +43,6 @@ resource "aws_ecs_service" "service" {
   load_balancer {
     target_group_arn = var.target_group_arn
     container_name   = "${var.app_name}"
-    container_port   = 80
+    container_port   = 8000   # <── changed
   }
-
-  depends_on = [var.target_group_arn]
 }

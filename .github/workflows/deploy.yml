@@ -1,0 +1,43 @@
+name: Deploy to ECS
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::891377023859:role/cloud-cost-dashboard-gh-deploy
+          aws-region: eu-west-2
+
+      - name: Log in to ECR
+        run: |
+          aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 891377023859.dkr.ecr.eu-west-2.amazonaws.com
+
+      - name: Build Docker image
+        run: docker build -t cloud-cost-dashboard:latest .
+
+      - name: Tag image for ECR
+        run: docker tag cloud-cost-dashboard:latest 891377023859.dkr.ecr.eu-west-2.amazonaws.com/cloud-cost-dashboard:latest
+
+      - name: Push image to ECR
+        run: docker push 891377023859.dkr.ecr.eu-west-2.amazonaws.com/cloud-cost-dashboard:latest
+
+      - name: Deploy new task to ECS
+        run: |
+          aws ecs update-service \
+            --cluster cloud-cost-dashboard-cluster \
+            --service cloud-cost-dashboard-svc \
+            --force-new-deployment

@@ -1,4 +1,4 @@
-![ChatGPT Image May 12, 2025, 03_34_49 PM](https://github.com/user-attachments/assets/42ffaed4-84d0-4a4b-9fcc-25687a72d780)# ☁️ Cloud Cost Dashboard
+# ☁️ Cloud Cost Dashboard
 
 ![Infrastructure: Terraform](https://img.shields.io/badge/infrastructure-terraform-623CE4?logo=terraform)
 ![App: FastAPI](https://img.shields.io/badge/backend-fastapi-009688?logo=fastapi)

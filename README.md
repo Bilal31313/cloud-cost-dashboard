@@ -1,4 +1,4 @@
-# ☁️ Cloud Cost Dashboard
+![ChatGPT Image May 12, 2025, 03_34_49 PM](https://github.com/user-attachments/assets/42ffaed4-84d0-4a4b-9fcc-25687a72d780)# ☁️ Cloud Cost Dashboard
 
 ![Infrastructure: Terraform](https://img.shields.io/badge/infrastructure-terraform-623CE4?logo=terraform)
 ![App: FastAPI](https://img.shields.io/badge/backend-fastapi-009688?logo=fastapi)
@@ -21,8 +21,11 @@ A fully containerized FastAPI application deployed to AWS using ECS Fargate, RDS
 
 ## 🧱 Architecture
 
-![Cloud Cost Dashboard Architecture](![image](https://github.com/user-attachments/assets/25ff7477-2eea-46b3-ae02-1cefa57412ce)
-)
+![Cloud Cost Dashboard Architecture]
+)![Uploading ChatGPT Image May 12, 2<?xml version="1.0" encoding="utf-8"?><Error><Code>AuthenticationFailed</Code><Message>Server failed to authenticate the request. Make sure the value of Authorization header is formed correctly including the signature.
+RequestId:d9cc0e08-e01e-0078-664b-c39415000000
+Time:2025-05-12T14:34:49.8588934Z</Message><AuthenticationErrorDetail>Signed expiry time [Mon, 12 May 2025 14:27:51 GMT] must be after signed start time [Mon, 12 May 2025 14:34:49 GMT]</AuthenticationErrorDetail></Error>025, 03_34_49 PM.png…]()
+
 
 > ECS Fargate + RDS + ALB + Terraform modules
 

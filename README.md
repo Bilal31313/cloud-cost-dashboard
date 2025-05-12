@@ -1,6 +1,5 @@
 # ☁️ Cloud Cost Dashboard
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Bilal31313/cloud-cost-dashboard/ci.yml)
 ![Infrastructure: Terraform](https://img.shields.io/badge/infrastructure-terraform-623CE4?logo=terraform)
 ![App: FastAPI](https://img.shields.io/badge/backend-fastapi-009688?logo=fastapi)
 ![CI/CD: GitHub Actions](https://img.shields.io/badge/ci/cd-github%20actions-blue?logo=githubactions)

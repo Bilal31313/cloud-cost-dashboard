@@ -48,4 +48,6 @@ resource "aws_db_instance" "postgres" {
   multi_az                = false
   storage_encrypted       = false
   backup_retention_period = 0
+  depends_on = [aws_security_group.rds]
 }
+

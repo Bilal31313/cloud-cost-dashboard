@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from sqlmodel import SQLModel
-from routers import costs, recommendations
-from db.session import engine
+from app.routers import costs, recommendations
+from app.db.session import engine
 
 app = FastAPI(
     title="Cloud Cost Dashboard",

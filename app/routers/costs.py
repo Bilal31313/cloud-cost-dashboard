@@ -1,12 +1,12 @@
 from typing import Optional
 from fastapi import APIRouter, Depends, Query
 from sqlmodel import Session, select
-from models.cost import CostEntry
-from db.session import get_session
+from app.models.cost import CostEntry
+from app.db.session import get_session
 
-router = APIRouter()
+router = APIRouter(prefix="/costs")
 
-@router.get("/costs")
+@router.get("")
 def read_costs(
     service: Optional[str] = Query(None),
     region: Optional[str] = Query(None),

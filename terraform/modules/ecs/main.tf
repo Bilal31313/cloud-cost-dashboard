@@ -1,4 +1,3 @@
-
 ########################################
 # Data source (account ID for SSM secrets)
 ########################################
@@ -25,8 +24,7 @@ resource "aws_ecs_task_definition" "task" {
   container_definitions = jsonencode([
     {
       name  = "${var.app_name}"
-      image = "${var.ecr_image_uri}:latest"
-
+      image = "${var.ecr_image_uri}:v15"
       portMappings = [
         {
           containerPort = 8000
@@ -47,7 +45,11 @@ resource "aws_ecs_task_definition" "task" {
       environment = [
         {
           name  = "DB_HOST"
-          value = var.db_host
+          value = var.db_host                  # RDS endpoint
+        },
+        {
+          name  = "DB_NAME"
+          value = "postgres"                   # default DB in RDS
         }
       ]
 
@@ -77,7 +79,7 @@ resource "aws_ecs_service" "service" {
 
   network_configuration {
     subnets          = var.subnets
-    security_groups  = [var.ecs_sg_id]   # ✅ SG injected from root module
+    security_groups  = [var.ecs_sg_id]
     assign_public_ip = true
   }
 

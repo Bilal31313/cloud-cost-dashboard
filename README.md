@@ -21,7 +21,8 @@ A fully containerized FastAPI application deployed to AWS using ECS Fargate, RDS
 
 ## 🧱 Architecture
 
-![Cloud Cost Dashboard Architecture](docs/architecture-diagram.png)
+![Cloud Cost Dashboard Architecture](![image](https://github.com/user-attachments/assets/25ff7477-2eea-46b3-ae02-1cefa57412ce)
+)
 
 > ECS Fargate + RDS + ALB + Terraform modules
 

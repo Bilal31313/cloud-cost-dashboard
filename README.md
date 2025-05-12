@@ -58,6 +58,11 @@ Infra	Terraform (modular), AWS (VPC, ECS, ALB, RDS)
 CI/CD	GitHub Actions
 Secrets	AWS SSM Parameter Store
 
+> ⚠️ This project’s live infrastructure has been torn down to avoid AWS costs.  
+> All Terraform and CI/CD configurations remain in place and can be re-provisioned using `terraform apply`.  
+> See "How to Deploy" for full setup instructions.
+
+
 ⚙️ How to Deploy
 Prerequisites:
 

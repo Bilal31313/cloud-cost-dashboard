@@ -82,6 +82,8 @@ cd cloud-cost-dashboard/terraform
 2. 🌍 Terraform Apply
 terraform init
 terraform apply
+![image](https://github.com/user-attachments/assets/6f8e5d53-b46d-414a-8b8f-e817e45e06eb)
+
 This provisions:
 
 VPC, public/private subnets, NAT gateway
@@ -102,6 +104,10 @@ aws ecr get-login-password --region eu-west-2 | docker login --username AWS --pa
 docker build -t cloud-cost-dashboard:v21 .
 docker tag cloud-cost-dashboard:v21 891377023859.dkr.ecr.eu-west-2.amazonaws.com/cloud-cost-dashboard:v21
 docker push 891377023859.dkr.ecr.eu-west-2.amazonaws.com/cloud-cost-dashboard:v21
+
+## 🔧 Sample API Output
+![image](https://github.com/user-attachments/assets/252f5a21-eb2e-49fb-84e0-76f1990e8882)
+
 
 ✅ Alternatively: Just push to main and let GitHub Actions handle this.
 

@@ -138,6 +138,14 @@ cloud-cost-dashboard/
 ├── Dockerfile         # App container
 └── .github/workflows/ci.yml # CI/CD pipeline
 
+🛡️ Security Considerations
+
+- No hardcoded secrets. All sensitive credentials are pulled at runtime from AWS SSM Parameter Store.
+- IAM roles follow least privilege.
+- RDS is deployed in a private subnet.
+- ALB is the only publicly exposed component.
+
+
 🛠️ Future Enhancements
 ✅ CI/CD via GitHub Actions
 
